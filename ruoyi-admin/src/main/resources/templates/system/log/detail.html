@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('百度ECharts')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-log-edit" th:object="${testLog}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">任务名称：</label>
+                    <div class="col-sm-8">
+                        <input name="rwmc" th:field="*{rwmc}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用例名：</label>
+                    <div class="col-sm-8">
+                        <input name="scenario" th:field="*{scenario}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">通过否：</label>
+                    <div class="col-sm-8">
+                        <input name="scenario" th:field="*{tgf}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-sm-12">
+            <div class="ibox-content">
+                <div class="echarts" id="echarts-line-chart"></div>
+            </div>
+        </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-primary single disabled" onclick="$.operate.openDetail()">
+                <i class="fa fa-edit"></i> 详情
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: echarts-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/message";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "测试预警信息",
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field : 'id',
+                        title : '序号',
+                        visible: false
+                    },
+                    {
+                        field : 'infonum',
+                        title : '预警序号'
+                    },
+                    {
+                        field : 'ismd5',
+                        title : 'MD5否'
+                    },
+                    {
+                        field : 'timestamp',
+                        title : '时间戳'
+                    },
+                    {
+                        field : 'messagetype',
+                        title : '预警类型'
+                    },
+                    {
+                        field : 'messagelength',
+                        title : '预警信息长度'
+                    },
+                    {
+                        field : 'x',
+                        title : '预警位置(x)'
+                    },
+                    {
+                        field : 'y',
+                        title : '预警位置(y)'
+                    },
+                    {
+                        field : 'ttc',
+                        title : '碰撞时间'
+                    },
+                    {
+                        field : 'hvs',
+                        title : '主车速度'
+                    },
+                    {
+                        field : 'rvs',
+                        title : '远车速度'
+                    },
+                    {
+                        field : 'hrdistance',
+                        title : '相对距离'
+                    },
+                    {
+                        field : 'rwmc',
+                        title : '任务名称'
+                    },
+                    {
+                        field : 'scenario',
+                        title : '用例名'
+                    }]
+            };
+            $.table.init(options);
+        });
+        $(function () {
+            var rwmc = $("#rwmc").val();
+            var scenario = $("#scenario").val();
+            $.ajax({
+                url: prefix + "/getarray",
+                async: false,
+                type: 'POST',
+                dataType: 'json',
+                data : {
+                    "rwmc": rwmc,
+                    "scenario": scenario,
+                },
+                success: function (data) {
+                    xdata = eval(data)
+                },
+            })
+            var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
+            var lineoption = {
+                title: {
+                    text: '车速监控',
+                    subtext: 'y: km/h   x: ms'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['主车车速', '远车车速']
+                },
+                grid: {
+                    x: 40,
+                    x2: 40,
+                    y2: 24
+                },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xdata[0]
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '主车车速',
+                        type: 'line',
+                        data: xdata[1],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+                    {
+                        name: '远车车速',
+                        type: 'line',
+                        data: xdata[2],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    }
+                ]
+            };
+            lineChart.setOption(lineoption);
+            $(window).resize(lineChart.resize);
+        });
+    </script>
+</body>
+</html>

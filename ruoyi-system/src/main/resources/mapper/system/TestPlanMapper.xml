@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestPlanMapper">
+    
+    <resultMap type="TestPlan" id="TestPlanResult">
+        <result property="id"    column="id"    />
+        <result property="rwmc"    column="rwmc"    />
+        <result property="path"    column="path"    />
+        <result property="bz"    column="bz"    />
+    </resultMap>
+
+    <sql id="selectTestPlanVo">
+        select id, rwmc, path, bz from test_plan
+    </sql>
+
+    <select id="selectTestPlanList" parameterType="TestPlan" resultMap="TestPlanResult">
+        <include refid="selectTestPlanVo"/>
+        <where>  
+            <if test="rwmc != null  and rwmc != ''"> and rwmc = #{rwmc}</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="bz != null  and bz != ''"> and bz = #{bz}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestPlanById" parameterType="Long" resultMap="TestPlanResult">
+        <include refid="selectTestPlanVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestPlan" parameterType="TestPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into test_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rwmc != null  and rwmc != ''">rwmc,</if>
+            <if test="path != null  and path != ''">path,</if>
+            <if test="bz != null  and bz != ''">bz,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rwmc != null  and rwmc != ''">#{rwmc},</if>
+            <if test="path != null  and path != ''">#{path},</if>
+            <if test="bz != null  and bz != ''">#{bz},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestPlan" parameterType="TestPlan">
+        update test_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rwmc != null  and rwmc != ''">rwmc = #{rwmc},</if>
+            <if test="path != null  and path != ''">path = #{path},</if>
+            <if test="bz != null  and bz != ''">bz = #{bz},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestPlanById" parameterType="Long">
+        delete from test_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteTestPlanByIds" parameterType="String">
+        delete from test_plan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertList" parameterType="String">
+        insert into test_plan (rwmc,path) VALUES (#{rwmc},#{path})
+    </insert>
+    
+</mapper>

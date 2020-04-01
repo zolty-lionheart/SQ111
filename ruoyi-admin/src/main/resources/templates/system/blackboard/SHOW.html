@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('演示场景')" />
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="text-center article-title">
+                        <h1>
+                            演示场景
+                        </h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-1 search8-collapse">
+                            <div class="select-list">
+                                <ul>
+                                    <div class="col-sm-6">
+                                        <li>
+                                            <a class="btn btn-success" onclick="SHOWTestBegin()">
+                                                <i class="fa fa-plus"></i> 开始测试
+                                            </a>
+                                        </li>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <li>
+                                            <a class="btn btn-danger" onclick="SHOWTestEnd()">
+                                                <i class="fa fa-remove"></i> 测试结束
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="SHOW.html#collapse1">简介</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in">
+                                    <div class="alert alert-success">
+                                        <div class="panel-body">
+                                            <p>本演示场景展示了iBox部分应用的测试情况，如遇到前方车辆存在碰撞可能时就会弹出前向碰撞预警；通过十字路口存在碰撞可能时就会弹出交叉路口碰撞预警；路遇行人存在碰撞可能时就会弹出行人穿越马路提醒；路过学校时的前方学校预警等。同时基于行人、车辆会进行目标识别。目标物周围会显示相应的速度、预计碰撞时间等，可以通过其信息更好地为V2X测试提供测试支撑。。</p>
+                                        </div>
+                                        <p class="text-center pic">
+                                            <img th:src="@{/img/SHOW.jpg}" width="80%" height="80%">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="SHOW.html#collapse2">测试步骤</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse in">
+                                    <div class="alert alert-info">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>
+                                                    <p>1.开启演示场景测试</p>
+                                                </li>
+                                                <li>
+                                                    <p>2.通过观察HMI得到测到测试结果。</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    function animationHover(element, animation) {
+        element = $(element);
+        element.hover(
+            function () {
+                element.addClass('animated ' + animation);
+            },
+            function () {
+                //动画完成之前移除class
+                window.setTimeout(function () {
+                    element.removeClass('animated ' + animation);
+                }, 2000);
+            });
+    };
+    $(document).ready(function () {
+        $('.pic').each(function () {
+            animationHover(this, 'pulse');
+        });
+    });
+    function SHOWTestBegin() {
+        $.modal.confirm("确认要开始测试吗?", function() {
+            var url = ctx + 'system/main/SHOWTestBegin';
+            $.operate.submit(url, "post", "json","");
+        });
+    };
+    function SHOWTestEnd() {
+        $.modal.confirm("确认要结束测试吗?", function() {
+            var url = ctx + 'system/main/SHOWTestEnd';
+            $.operate.submit(url, "post", "json", "");
+        });
+    };
+</script>
+</body>
+</html>
+
+

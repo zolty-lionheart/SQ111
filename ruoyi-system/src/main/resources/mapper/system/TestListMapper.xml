@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestListMapper">
+    
+    <resultMap type="TestList" id="TestListResult">
+        <result property="id"    column="id"    />
+        <result property="scenario"    column="scenario"    />
+        <result property="speed"    column="speed"    />
+        <result property="behavior"    column="behavior"    />
+        <result property="warningtype"    column="warningtype"    />
+        <result property="roadtype"    column="roadtype"    />
+        <result property="barriertype"    column="barriertype"    />
+        <result property="place"    column="place"    />
+    </resultMap>
+
+    <sql id="selectTestListVo">
+        select id, scenario, speed, behavior, warningtype, roadtype, barriertype, place from test_list
+    </sql>
+
+    <select id="selectTestListList" parameterType="TestList" resultMap="TestListResult">
+        <include refid="selectTestListVo"/>
+        <where>  
+            <if test="scenario != null  and scenario != ''"> and scenario = #{scenario}</if>
+            <if test="speed != null  and speed != ''"> and speed = #{speed}</if>
+            <if test="behavior != null  and behavior != ''"> and behavior = #{behavior}</if>
+            <if test="warningtype != null  and warningtype != ''"> and warningtype = #{warningtype}</if>
+            <if test="roadtype != null  and roadtype != ''"> and roadtype = #{roadtype}</if>
+            <if test="barriertype != null  and barriertype != ''"> and barriertype = #{barriertype}</if>
+            <if test="place != null  and place != ''"> and place = #{place}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestListById" parameterType="Long" resultMap="TestListResult">
+        <include refid="selectTestListVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestList" parameterType="TestList" useGeneratedKeys="true" keyProperty="id">
+        insert into test_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">scenario,</if>
+            <if test="speed != null  and speed != ''">speed,</if>
+            <if test="behavior != null  and behavior != ''">behavior,</if>
+            <if test="warningtype != null  and warningtype != ''">warningtype,</if>
+            <if test="roadtype != null  and roadtype != ''">roadtype,</if>
+            <if test="barriertype != null  and barriertype != ''">barriertype,</if>
+            <if test="place != null  and place != ''">place,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">#{scenario},</if>
+            <if test="speed != null  and speed != ''">#{speed},</if>
+            <if test="behavior != null  and behavior != ''">#{behavior},</if>
+            <if test="warningtype != null  and warningtype != ''">#{warningtype},</if>
+            <if test="roadtype != null  and roadtype != ''">#{roadtype},</if>
+            <if test="barriertype != null  and barriertype != ''">#{barriertype},</if>
+            <if test="place != null  and place != ''">#{place},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestList" parameterType="TestList">
+        update test_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">scenario = #{scenario},</if>
+            <if test="speed != null  and speed != ''">speed = #{speed},</if>
+            <if test="behavior != null  and behavior != ''">behavior = #{behavior},</if>
+            <if test="warningtype != null  and warningtype != ''">warningtype = #{warningtype},</if>
+            <if test="roadtype != null  and roadtype != ''">roadtype = #{roadtype},</if>
+            <if test="barriertype != null  and barriertype != ''">barriertype = #{barriertype},</if>
+            <if test="place != null  and place != ''">place = #{place},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestListById" parameterType="Long">
+        delete from test_list where id = #{id}
+    </delete>
+
+    <delete id="deleteTestListByIds" parameterType="String">
+        delete from test_list where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="addTestByIds" parameterType="String">
+        insert into test_selected (scenario,login_name) select scenario , #{loginName} from test_list where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </insert>
+    
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestResultMapper">
+    
+    <resultMap type="TestResult" id="TestResultResult">
+        <result property="id"    column="id"    />
+        <result property="cjsj"    column="cjsj"    />
+        <result property="rwmc"    column="rwmc"    />
+        <result property="zt"    column="zt"    />
+        <result property="cjzs"    column="cjzs"    />
+        <result property="tgf"    column="tgf"    />
+        <result property="tgs"    column="tgs"    />
+        <result property="wtgs"    column="wtgs"    />
+        <result property="tgl"    column="tgl"    />
+        <result property="jg"    column="jg"    />
+        <result property="yxsj"    column="yxsj"    />
+        <result property="dbl"    column="dbl"    />
+        <result property="wbl"    column="wbl"    />
+        <result property="txyc"    column="txyc"    />
+        <result property="jsnl"    column="jsnl"    />
+        <result property="wcd"    column="wcd"    />
+        <result property="ddl6"    column="ddl6"    />
+        <result property="ddl7"    column="ddl7"    />
+        <result property="ddl8"    column="ddl8"    />
+        <result property="ddl9"    column="ddl9"    />
+    </resultMap>
+
+    <sql id="selectTestResultVo">
+        select id, cjsj, rwmc, zt, cjzs, tgf, tgs, wtgs, tgl, jg, yxsj, dbl, wbl, txyc, jsnl, wcd, ddl6, ddl7, ddl8, ddl9 from test_result
+    </sql>
+
+    <select id="selectTestResultList" parameterType="TestResult" resultMap="TestResultResult">
+        <include refid="selectTestResultVo"/>
+        <where>  
+            <if test="cjsj != null  and cjsj != ''"> and cjsj = #{cjsj}</if>
+            <if test="rwmc != null  and rwmc != ''"> and rwmc = #{rwmc}</if>
+            <if test="zt != null  and zt != ''"> and zt = #{zt}</if>
+            <if test="cjzs != null  and cjzs != ''"> and cjzs = #{cjzs}</if>
+            <if test="tgf != null  and tgf != ''"> and tgf = #{tgf}</if>
+            <if test="tgs != null  and tgs != ''"> and tgs = #{tgs}</if>
+            <if test="wtgs != null  and wtgs != ''"> and wtgs = #{wtgs}</if>
+            <if test="tgl != null  and tgl != ''"> and tgl = #{tgl}</if>
+            <if test="jg != null  and jg != ''"> and jg = #{jg}</if>
+            <if test="yxsj != null  and yxsj != ''"> and yxsj = #{yxsj}</if>
+            <if test="dbl != null  and dbl != ''"> and dbl = #{dbl}</if>
+            <if test="wbl != null  and wbl != ''"> and wbl = #{wbl}</if>
+            <if test="txyc != null  and txyc != ''"> and txyc = #{txyc}</if>
+            <if test="jsnl != null  and jsnl != ''"> and jsnl = #{jsnl}</if>
+            <if test="wcd != null  and wcd != ''"> and wcd = #{wcd}</if>
+            <if test="ddl6 != null  and ddl6 != ''"> and ddl6 = #{ddl6}</if>
+            <if test="ddl7 != null  and ddl7 != ''"> and ddl7 = #{ddl7}</if>
+            <if test="ddl8 != null  and ddl8 != ''"> and ddl8 = #{ddl8}</if>
+            <if test="ddl9 != null  and ddl9 != ''"> and ddl9 = #{ddl9}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestResultById" parameterType="Long" resultMap="TestResultResult">
+        <include refid="selectTestResultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestResult" parameterType="TestResult" useGeneratedKeys="true" keyProperty="id">
+        insert into test_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cjsj != null  and cjsj != ''">cjsj,</if>
+            <if test="rwmc != null  and rwmc != ''">rwmc,</if>
+            <if test="zt != null  and zt != ''">zt,</if>
+            <if test="cjzs != null  and cjzs != ''">cjzs,</if>
+            <if test="tgf != null  and tgf != ''">tgf,</if>
+            <if test="tgs != null  and tgs != ''">tgs,</if>
+            <if test="wtgs != null  and wtgs != ''">wtgs,</if>
+            <if test="tgl != null  and tgl != ''">tgl,</if>
+            <if test="jg != null  and jg != ''">jg,</if>
+            <if test="yxsj != null  and yxsj != ''">yxsj,</if>
+            <if test="dbl != null  and dbl != ''">dbl,</if>
+            <if test="wbl != null  and wbl != ''">wbl,</if>
+            <if test="txyc != null  and txyc != ''">txyc,</if>
+            <if test="jsnl != null  and jsnl != ''">jsnl,</if>
+            <if test="wcd != null  and wcd != ''">wcd,</if>
+            <if test="ddl6 != null  and ddl6 != ''">ddl6,</if>
+            <if test="ddl7 != null  and ddl7 != ''">ddl7,</if>
+            <if test="ddl8 != null  and ddl8 != ''">ddl8,</if>
+            <if test="ddl9 != null  and ddl9 != ''">ddl9,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cjsj != null  and cjsj != ''">#{cjsj},</if>
+            <if test="rwmc != null  and rwmc != ''">#{rwmc},</if>
+            <if test="zt != null  and zt != ''">#{zt},</if>
+            <if test="cjzs != null  and cjzs != ''">#{cjzs},</if>
+            <if test="tgf != null  and tgf != ''">#{tgf},</if>
+            <if test="tgs != null  and tgs != ''">#{tgs},</if>
+            <if test="wtgs != null  and wtgs != ''">#{wtgs},</if>
+            <if test="tgl != null  and tgl != ''">#{tgl},</if>
+            <if test="jg != null  and jg != ''">#{jg},</if>
+            <if test="yxsj != null  and yxsj != ''">#{yxsj},</if>
+            <if test="dbl != null  and dbl != ''">#{dbl},</if>
+            <if test="wbl != null  and wbl != ''">#{wbl},</if>
+            <if test="txyc != null  and txyc != ''">#{txyc},</if>
+            <if test="jsnl != null  and jsnl != ''">#{jsnl},</if>
+            <if test="wcd != null  and wcd != ''">#{wcd},</if>
+            <if test="ddl6 != null  and ddl6 != ''">#{ddl6},</if>
+            <if test="ddl7 != null  and ddl7 != ''">#{ddl7},</if>
+            <if test="ddl8 != null  and ddl8 != ''">#{ddl8},</if>
+            <if test="ddl9 != null  and ddl9 != ''">#{ddl9},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestResult" parameterType="TestResult">
+        update test_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cjsj != null  and cjsj != ''">cjsj = #{cjsj},</if>
+            <if test="rwmc != null  and rwmc != ''">rwmc = #{rwmc},</if>
+            <if test="zt != null  and zt != ''">zt = #{zt},</if>
+            <if test="cjzs != null  and cjzs != ''">cjzs = #{cjzs},</if>
+            <if test="tgf != null  and tgf != ''">tgf = #{tgf},</if>
+            <if test="tgs != null  and tgs != ''">tgs = #{tgs},</if>
+            <if test="wtgs != null  and wtgs != ''">wtgs = #{wtgs},</if>
+            <if test="tgl != null  and tgl != ''">tgl = #{tgl},</if>
+            <if test="jg != null  and jg != ''">jg = #{jg},</if>
+            <if test="yxsj != null  and yxsj != ''">yxsj = #{yxsj},</if>
+            <if test="dbl != null  and dbl != ''">dbl = #{dbl},</if>
+            <if test="wbl != null  and wbl != ''">wbl = #{wbl},</if>
+            <if test="txyc != null  and txyc != ''">txyc = #{txyc},</if>
+            <if test="jsnl != null  and jsnl != ''">jsnl = #{jsnl},</if>
+            <if test="wcd != null  and wcd != ''">wcd = #{wcd},</if>
+            <if test="ddl6 != null  and ddl6 != ''">ddl6 = #{ddl6},</if>
+            <if test="ddl7 != null  and ddl7 != ''">ddl7 = #{ddl7},</if>
+            <if test="ddl8 != null  and ddl8 != ''">ddl8 = #{ddl8},</if>
+            <if test="ddl9 != null  and ddl9 != ''">ddl9 = #{ddl9},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestResultById" parameterType="Long">
+        delete from test_result where id = #{id}
+    </delete>
+
+    <delete id="deleteTestResultByIds" parameterType="String">
+        delete from test_result where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

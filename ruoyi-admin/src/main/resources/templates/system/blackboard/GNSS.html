@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('GNSS测试')" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight article">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="text-center article-title">
+                            <h1>
+                                GNSS定位测试
+                            </h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-1 search8-collapse">
+                                <div class="select-list">
+                                    <ul>
+                                        <div class="col-sm-3">
+                                            <li>
+                                                <a class="btn btn-success" onclick="beginTest()">
+                                                    <i class="fa fa-plus"></i> 抖动测试
+                                                </a>
+                                            </li>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <li>
+                                                <a class="btn btn-success" onclick="beginTest()">
+                                                    <i class="fa fa-plus"></i> 冷启动测试
+                                                </a>
+                                            </li>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <li>
+                                                <a class="btn btn-success" onclick="beginTest()">
+                                                    <i class="fa fa-plus"></i> 热启动测试
+                                                </a>
+                                            </li>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <li>
+                                                <a class="btn btn-danger multiple disabled" onclick="endTest()">
+                                                    <i class="fa fa-remove"></i> 测试结束
+                                                </a>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="GNSS.html#collapse1">简介</a>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse in">
+                                        <div class="alert alert-success">
+                                            <div class="panel-body">
+                                                <p>罗德与施瓦茨公司（以下简称R&S公司）和华为公司共同宣布调试完成LTE-V2X模块DA2300以及路边单元RSU5210生产测试方案。该模块支持最新的3GPP Release14 PC5通信模式，工作在5.8/5.9GHz band46D和band47。华为RSU是全球首款支持Uu口以及PC5通信模式的路边单元。不久之前，华为公司使用CMW500宽带无线通信测试仪以及SMBV100A矢量信号发生器完成LTE-V2X模块DA2300（搭载巴龙765芯片）以及RSU的研发测试。这次使用MW100无线通信生产测试仪v06版本和SMBV100A矢量信号发生器进行了V2X模块以及RSU的生产测试，测试连接如下图所示。</p>
+                                                <p class="text-center pic">
+                                                    <img th:src="@{/img/RStest.jpg}" width="80%" height="80%">
+                                                </p>
+                                                <p class="text-center pic">
+                                                    <img th:src="@{/img/testGNSS.jpg}" width="80%" height="80%">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="GNSS.html#collapse2">矢量信号发生器(SMBV100B)简介</a>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse in">
+                                        <div class="alert alert-info">
+                                            <div class="panel-body">
+                                                <p>R&S®SMBV100B矢量信号发生器兼具卓越的性能特性，包括高输出功率、宽调制带宽以及出色的信号质量。此仪器的频率范围介于8kHz至6GHz，覆盖数字无线通信的所有重要射频频段。射频调制带宽高达500MHz，可满足第四代和第五代通信标准的严苛要求。在航空航天和国防应用中，带宽可确保生成复杂的脉冲信号。HIL项目中主要用于GNSS信号模拟。可以将NVME格式的GPS信号文件转为为GPS射频信号。主要是将远车的行车轨迹的路径转为相对应的NVME格式文件。由该设备模拟为真实的GPS信号。除了用静态文件导入以外，基于license(K109）可以进行基于UDP的实时GNSS模拟。首先将设备都接入局域网，将GPS信号实时通过UDP发送给SMBV100B，将设备设置为HIL—>UDP模式，即可进行实时模拟。</p>
+                                                <p class="text-center pic">
+                                                    <img th:src="@{/img/SMBV100B.jpg}" width="80%" height="80%">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="GNSS.html#collapse3">通信协议</a>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse3" class="panel-collapse collapse in">
+                                        <div class="alert alert-warning">
+                                            <div class="panel-body">
+
+                                                <p>R&S®SMBV100B HIL UDP通信协议如下图，需将VTD中数据按照协议格式传送给SMBV100B，设备即可完成GNSS实时仿真。</p>
+                                                <p class="text-center pic">
+                                                    <img th:src="@{/img/SMBV100BPSC.jpg}" width="80%" height="80%">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="GNSS.html#collapse4">布置方案</a>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse4" class="panel-collapse collapse in">
+                                        <div class="alert alert-danger">
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <li>
+                                                        <p>1.在iBox-HIL台架中,拥有SMBV100B能够实现更加完善的GNSS测试。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>2.设备连接方案如下图所示。具体硬件连线将在设备操作总结中具体描述。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>3.在SMBV100B中设置: baseband->GNSS->Simulation Configuration->Receiver,将"Position"设置为"Remote Control(HIL)"。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>4.通过调节SMBV100B的参数，来改变信道模型、卫星数量、卫星情况、各种GNSS情况等。可以验证不同移动速率、不同信道模型、极限信道模型（例如:超弱GNSS信号等）下的模组工作情况。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>5.并且根据测试需求，将常用的信道模型参数保存为可执行脚本。当测试某种信道模型时，可以通过SCPI命令启动该模型测试，具体SCPI操作将在设备操作总结中描述。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>6.保存为不同信道模型文件（例如:GNSS抖动、GNSS弱、GNSS丢失等）。</p>
+                                                    </li>
+                                                </ul>
+                                                <p class="text-center pic">
+                                                    <img th:src="@{/img/GNSSconnection.jpg}" width="80%" height="80%">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="GNSS.html#collapse5">测试步骤</a>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse5" class="panel-collapse collapse in">
+                                        <div class="alert alert-success">
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <li>
+                                                        <p>1.开启iBox-HIL测试。选择测试模式（例如:GNSS抖动、GNSS弱、GNSS丢失等）。点击“start”按钮，会根据选择的模式，自动配置SMBV100B的参数。</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>2.通过观察HMI和测试报告得到测到测试结果。</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        function animationHover(element, animation) {
+            element = $(element);
+            element.hover(
+                function () {
+                    element.addClass('animated ' + animation);
+                },
+                function () {
+                    //动画完成之前移除class
+                    window.setTimeout(function () {
+                        element.removeClass('animated ' + animation);
+                    }, 2000);
+                });
+        };
+        $(document).ready(function () {
+            $('.pic').each(function () {
+                animationHover(this, 'pulse');
+            });
+        });
+    </script>
+</body>
+</html>
+
+

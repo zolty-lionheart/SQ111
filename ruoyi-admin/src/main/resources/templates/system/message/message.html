@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('测试预警信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>预警序号：</p>
+                                <input type="text" name="infonum"/>
+                            </li>
+                            <li>
+                                <p>MD5否：</p>
+                                <input type="text" name="ismd5"/>
+                            </li>
+                            <li>
+                                <p>时间戳：</p>
+                                <input type="text" name="timestamp"/>
+                            </li>
+                            <li>
+                                <p>预警类型：</p>
+                                <select name="messagetype" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>预警信息长度：</p>
+                                <input type="text" name="messagelength"/>
+                            </li>
+                            <li>
+                                <p>预警位置(x)：</p>
+                                <input type="text" name="x"/>
+                            </li>
+                            <li>
+                                <p>预警位置(y)：</p>
+                                <input type="text" name="y"/>
+                            </li>
+                            <li>
+                                <p>碰撞时间：</p>
+                                <input type="text" name="ttc"/>
+                            </li>
+                            <li>
+                                <p>主车速度：</p>
+                                <input type="text" name="hvs"/>
+                            </li>
+                            <li>
+                                <p>远车速度：</p>
+                                <input type="text" name="rvs"/>
+                            </li>
+                            <li>
+                                <p>相对距离：</p>
+                                <input type="text" name="hrdistance"/>
+                            </li>
+                            <li>
+                                <p>任务名称：</p>
+                                <input type="text" name="rwmc"/>
+                            </li>
+                            <li>
+                                <p>用例名：</p>
+                                <input type="text" name="scenario"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:message:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:message:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:message:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:message:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:message:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:message:remove')}]];
+        var prefix = ctx + "system/message";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "测试预警信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '序号',
+                    visible: false
+                },
+                {
+                    field : 'infonum', 
+                    title : '预警序号'
+                },
+                {
+                    field : 'ismd5', 
+                    title : 'MD5否'
+                },
+                {
+                    field : 'timestamp', 
+                    title : '时间戳'
+                },
+                {
+                    field : 'messagetype', 
+                    title : '预警类型'
+                },
+                {
+                    field : 'messagelength', 
+                    title : '预警信息长度'
+                },
+                {
+                    field : 'x', 
+                    title : '预警位置(x)'
+                },
+                {
+                    field : 'y', 
+                    title : '预警位置(y)'
+                },
+                {
+                    field : 'ttc', 
+                    title : '碰撞时间'
+                },
+                {
+                    field : 'hvs', 
+                    title : '主车速度'
+                },
+                {
+                    field : 'rvs', 
+                    title : '远车速度'
+                },
+                {
+                    field : 'hrdistance', 
+                    title : '相对距离'
+                },
+                {
+                    field : 'rwmc', 
+                    title : '任务名称'
+                },
+                {
+                    field : 'scenario', 
+                    title : '用例名'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

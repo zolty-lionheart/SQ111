@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改测试结果')" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-result-edit" th:object="${testResult}">
+        <input name="id" th:field="*{id}" type="hidden">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">创建时间：</label>
+                <div class="col-sm-8">
+                    <input name="cjsj" th:field="*{cjsj}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">任务名称：</label>
+                <div class="col-sm-8">
+                    <input name="rwmc" th:field="*{rwmc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <input name="zt" th:field="*{zt}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">场景总数：</label>
+                <div class="col-sm-8">
+                    <input name="cjzs" th:field="*{cjzs}" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">通过否：</label>
+                <div class="col-sm-8">
+                    <input name="tgf" th:field="*{tgf}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">通过数：</label>
+                <div class="col-sm-8">
+                    <input name="tgs" th:field="*{tgs}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">未通过数：</label>
+                <div class="col-sm-8">
+                    <input name="wtgs" th:field="*{wtgs}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">通过率：</label>
+                <div class="col-sm-8">
+                    <input name="tgl" th:field="*{tgl}" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">总结：</label>
+                <div class="col-sm-8">
+                    <input name="jg" th:field="*{jg}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">运行时间：</label>
+                <div class="col-sm-8">
+                    <input name="yxsj" th:field="*{yxsj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">丢包率：</label>
+                <div class="col-sm-8">
+                    <input name="dbl" th:field="*{dbl}" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">通信延迟：</label>
+                <div class="col-sm-8">
+                    <input name="txyc" th:field="*{txyc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">计算能力：</label>
+                <div class="col-sm-8">
+                    <input name="jsnl" th:field="*{jsnl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">误报率：</label>
+                <div class="col-sm-8">
+                    <input name="wbl" th:field="*{wbl}" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    var prefix = ctx + "system/result";
+    $("#form-result-edit").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/edit", $('#form-result-edit').serialize());
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('协议栈互通性测试')" />
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <br class="ibox-content">
+                    <div class="text-center article-title">
+                        <h1>
+                            协议栈互通性测试
+                        </h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-1 search8-collapse">
+                            <div class="select-list">
+                                <ul>
+                                    <div class="col-sm-3">
+                                        <li>
+                                            <p>任务名称</p>
+                                            <input type="text" name="rwmc"/>
+                                        </li>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <li>
+                                            <p>选择辆数</p>
+                                            <select name="clsm" th:with="type=${@dict.getType('')}">
+                                                <option value="">请选择</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                        </li>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <li>
+                                            <a class="btn btn-success" onclick="beginTest()">
+                                                <i class="fa fa-plus"></i> 测试开始
+                                            </a>
+                                        </li>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <li>
+                                            <a class="btn btn-danger multiple disabled" onclick="endTest()">
+                                                <i class="fa fa-remove"></i> 测试结束
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="PSCT.html#collapse1">简介</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in">
+                                    <div class="alert alert-success">
+                                        <div class="panel-body">
+                                            <p>由于iBox1.0代码结构混乱，目前正在进行对程序的整理和重构。重构可能导致iBox2.0程序出错，特别是当iBox工作于多车（多OBU）场景时，在实车测试中遇到了不能检测到部分车辆的V2X信号，导致无法识别远处的车辆的情况。 实车测试浪费了过多的人力物力和时间，故需要iBox-HIL测试台架提供仿真测试，用来检测iBox2.0版本是否能正确解析多辆远车的V2X数据，其测试结果能够很好地为iBox2.0的重构提供帮助。</p>
+                                        </div>
+                                        <p class="text-center pic">
+                                            <img th:src="@{/img/PSCT.jpg}" width="80%" height="80%">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="PSCT.html#collapse2">测试方案比较</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse in">
+                                    <div class="alert alert-info">
+                                        <div class="panel-body">
+                                           <p class="text-center pic">
+                                                <img th:src="@{/img/PSCTcom.jpg}" width="80%" height="80%">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="PSCT.html#collapse3">布置方案</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse3" class="panel-collapse collapse in">
+                                    <div class="alert alert-warning">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>
+                                                    <p>1.应iBox2.0重构小组要求，搭建7个专门用于iBox2.0支撑应用测试的测试场景。测试场景需要保证稳定运行以及多辆车辆。故按需搭建的场景均为100公里的直线道路，车辆数目分别为4-10辆，车速从20-60km/h不等。</p>
+                                                </li>
+                                                <li>
+                                                    <p>2.经过测试，本次搭建的测试用例集能保证（1）能够稳定运动30分钟；（2）华为OBU稳定发出辆车的V2X信号；（3）测试条目涵盖4-10辆车辆。</p>
+                                                </li>
+                                                <li>
+                                                    <p>3.例如：在运行 “iBox2.0专用测试-4车” 时，华为OBU会同时发出3辆远车V2X信号； 在运行 “iBox2.0专用测试-10车” 时，华为OBU会同时发出9辆远车V2X信号。</p>
+                                                </li>
+                                                <li>
+                                                    <p>4.硬件架构：上位机（VTD）+华为OBU+iBox即可，具体架构图如下图所示。上位机运行根据所选的测试用例，运行测试场景，运行时将场景中所有远车数据通过UDP实时发送至OBU，同时OBU接收到远车数据进行转发成V2X信号，最终iBox接收到多辆远车的V2X信号。无需通过罗德设备、dSpace等，车载终端直接通过原生天线进行数据收发即可。</p>
+                                                </li>
+                                            </ul>
+                                            <p class="text-center pic">
+                                                <img th:src="@{/img/PSCTconn.jpg}" width="80%" height="80%">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="PCST.html#collapse4">测试步骤</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse4" class="panel-collapse collapse in">
+                                    <div class="alert alert-danger">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>
+                                                    <p>1.打开自动仿真测试平台，选择协议栈互通性测试，选择测试项。</p>
+                                                </li>
+                                                <li>
+                                                    <p>2.观察iBox是否能解析成功多辆车的数据</p>
+                                                </li>
+                                                <li>
+                                                    <p>3.在测试开启后，登录到iBox上键入如下命令收集iBox的V2X信息：
+                                                        	cd /opt/v2x/bin
+                                                        	./app_decision_wraning_d > logg.txt
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p>4.在测试开启后，登录到iBox上键入如下命令收集iBox的vetalk.log：
+                                                        	cd /opt
+                                                        	sh saic_cv2x_stop.sh
+                                                        	sh saic_cv2x_start.sh
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p>5.查看iBox的“/opt/v2x/bin/logg.txt”和“/saic/vetalk.log”文件，检查iBox是否能正确解析3辆远车的V2X数据。</p>
+                                                </li>
+                                                <li>
+                                                    <p>6.如果收集到的“/opt/v2x/bin/logg.txt”有关键字“packet length error!”，则需要排查问题。</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="PSCT.html#collapse5">测试指标</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse5" class="panel-collapse collapse in">
+                                    <div class="alert alert-success">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>
+                                                    <p>1.测试用例时长>30min，测试远车数量>3。</p>
+                                                </li>
+                                                <li>
+                                                    <p>2.检查日志文件中车辆数量是否与测试用例相匹配。</p>
+                                                </li>
+                                                <li>
+                                                    <p>3.收集到的“/opt/v2x/bin/logg.txt”是否键字“packet length error!”</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    function animationHover(element, animation) {
+        element = $(element);
+        element.hover(
+            function () {
+                element.addClass('animated ' + animation);
+            },
+            function () {
+                //动画完成之前移除class
+                window.setTimeout(function () {
+                    element.removeClass('animated ' + animation);
+                }, 2000);
+            });
+    };
+    $(document).ready(function () {
+        $('.pic').each(function () {
+            animationHover(this, 'pulse');
+        });
+    });
+</script>
+</body>
+</html>
+
+

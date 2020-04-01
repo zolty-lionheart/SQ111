@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('测试结果详情')" />
+</head>
+<body class="white-bg">
+<div class="row">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-result-edit" th:object="${testResult}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">创建时间：</label>
+                    <div class="col-sm-8">
+                        <input name="cjsj" th:field="*{cjsj}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">任务名称：</label>
+                    <div class="col-sm-8">
+                        <input name="rwmc" th:field="*{rwmc}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">状态：</label>
+                    <div class="col-sm-8">
+                        <input name="zt" th:field="*{zt}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">场景总数：</label>
+                    <div class="col-sm-8">
+                        <input name="cjzs" th:field="*{cjzs}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">误报率：</label>
+                    <div class="col-sm-8">
+                        <input name="wbl" th:field="*{wbl}" class="form-control" type="text"  readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">通过否：</label>
+                    <div class="col-sm-8">
+                        <input name="tgf" th:field="*{tgf}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">通过数：</label>
+                    <div class="col-sm-8">
+                        <input name="tgs" th:field="*{tgs}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">未通过数：</label>
+                    <div class="col-sm-8">
+                        <input name="wtgs" th:field="*{wtgs}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">通过率：</label>
+                    <div class="col-sm-8">
+                        <input name="tgl" th:field="*{tgl}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">计算能力：</label>
+                    <div class="col-sm-8">
+                        <input name="jsnl" th:field="*{jsnl}" class="form-control" type="text"  readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">总结：</label>
+                    <div class="col-sm-8">
+                        <input name="jg" th:field="*{jg}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">运行时间：</label>
+                    <div class="col-sm-8">
+                        <input name="yxsj" th:field="*{yxsj}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">丢包率：</label>
+                    <div class="col-sm-8">
+                        <input name="dbl" th:field="*{dbl}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">完成数：</label>
+                    <div class="col-sm-8">
+                        <input name="wbl" th:field="*{wcd}" class="form-control" type="text"  readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">通信延迟：</label>
+                    <div class="col-sm-8">
+                        <input name="txyc" th:field="*{txyc}" class="form-control" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>
+                            <label class="col-sm-3 control-label">进度:</label>
+                            <div class="form-control-static" th:text="${testResult.wcd}/${testResult.cjzs}"></div>
+                        </h2>
+                        <div class="text-center">
+                            <div id="sparkline6"></div>
+                        </div>
+                        <div id="updateTime">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-primary single disabled" onclick="$.operate.openDetail()">
+                <i class="fa fa-edit"></i> 详情
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: sparkline-js" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:log:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:log:remove')}]];
+    var prefix = ctx + "system/log";
+    var rwmc = $("#rwmc").val();
+    $(function() {
+        var options = {
+            url: prefix + "/list/"+rwmc,
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            detailUrl: prefix + "/detail/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "测试日志",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'id',
+                    title : '序号',
+                    visible: false
+                },
+                {
+                    field : 'rwmc',
+                    title : '任务名称'
+                },
+                {
+                    field : 'scenario',
+                    title : '用例名'
+                },
+                {
+                    field : 'tgf',
+                    title : '通过否',
+                    formatter: function(value, row, index) {
+                        if(value == 0){
+                            return "未通过";
+                        }
+                        if(value == 1){
+                            return "通过";
+                        }
+                        else
+                        {
+                            return "-";
+                        }
+                    }
+                },
+                {
+                    field : 'tgf',
+                    title: '状态',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if(value == 0 || value == 1){
+                            actions.push('<a class="btn btn-success btn-rounded">完成</a>');
+                        }
+                        else
+                        {
+                            actions.push('<a class="btn btn-warning btn-rounded">未完成</a>');
+                        }
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    $(document).ready(function () {
+        var now = new Date();
+        var hour = now.getHours();//得到小时
+        var minu = now.getMinutes();//得到分钟
+        var sec = now.getSeconds();//得到秒
+        if (hour < 10) hour = "0" + hour;
+        if (minu < 10) minu = "0" + minu;
+        if (sec < 10) sec = "0" + sec;
+        var updateTime = hour + ":" +minu + ":" + sec;
+        document.getElementById("updateTime").innerHTML = updateTime;
+        timer = setTimeout(function(){location.reload()},5000); //指定1秒刷新一次
+        var cjzs= $("#cjzs").val();
+        var wcd= $("#wcd").val();
+        var wwc= cjzs-wcd;
+        $("#sparkline6").sparkline([wcd, wwc], {
+            type: 'pie',
+            height: '140',
+            sliceColors: ['#1ab394', '#F5F5F5']
+        });
+    });
+</script>
+</body>
+</html>

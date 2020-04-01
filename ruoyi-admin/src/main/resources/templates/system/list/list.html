@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('测试用例列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>场景名</p>
+                                <input type="text" name="scenario"/>
+                            </li>
+                            <li>
+                                <p>主车速度</p>
+                                <select name="speed" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>30</option>
+                                    <option>40</option>
+                                    <option>50</option>
+                                    <option>60</option>
+                                    <option>70</option>
+                                    <option>80</option>
+                                    <option>90</option>
+                                    <option>100</option>
+                                    <option>110</option>
+                                    <option>120</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>主车行为</p>
+                                <select name="behavior" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>直路直行</option>
+                                    <option>直路变道</option>
+                                    <option>路口直行</option>
+                                    <option>路口左转</option>
+                                    <option>路口右转</option>
+                                    <option>路口调头</option>
+                                    <option>开放空间</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>预警类型</p>
+                                <select name="warningtype" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option value="VP">VP (Vehicle Platooning)</option>
+                                    <option value="EBW">EBW (Emergency Brake Warning)</option>
+                                    <option value="EVW">EVW (Emergency Vehicle Warning)</option>
+                                    <option value="CSW">CSW (Curve Speed Warning)</option>
+                                    <option value="DZW">DZW (Deceleration Zone Warning)</option>
+                                    <option value="VHCWBORD">VHCWBORD (Vehicle To Human Conflict Warning Based On Roadside Detection)</option>
+                                    <option value="RCW">RCW (Road Condition Warning)</option>
+                                    <option value="VVCWBORD">VVCWBORD (Vehicle To Vehicle Conflict Warning Based On Roadside Detection)</option>
+                                    <option value="FCW">FCW (Forward Collision Warning)</option>
+                                    <option value="LMA">LMA (Lane merging Assistance)</option>
+                                    <option value="ICW">ICW (Intersection Collision Warning)</option>
+                                    <option value="TSD">TSD (Traffic Sign Distribution)</option>
+                                    <option value="CSR">CSR (Critical Sections Reminding)</option>
+                                    <option value="LTA">LTA (Left Turn Assistant)</option>
+                                    <option value="CLW">CLW (Control Loss Warning)</option>
+                                    <option value="ASS">ASS (Automatic start and stop)</option>
+                                    <option value="TJW">TJW (Traffic Jam Warning)</option>
+                                    <option value="VRW">VRW(Vehicle retrograde warning)</option>
+                                    <option value="DNPW">DNPW (Do Not Pass Warning)</option>
+                                    <option value="TLOSA">TLOSA (Traffic Light Optimized Speed Advisory)</option>
+                                    <option value="SLW">SLW (Speed Limit Warning)</option>
+                                    <option value="SVW">SVW (Signal Violation Warning)</option>
+                                    <option value="TLIP">TLIP (Traffic light information push)</option>
+                                    <option value="TLW">TLW (Tidal Lane Warning)</option>
+                                    <option value="VRUCW">VRUCW  (Vulnerable Road User Collision Warning)</option>
+                                    <option value="BSW">BSW (blind spot warning) / LCW (lane change warning)</option>
+                                    <option value="AVW">AVW (abnormal vehicle warning)</option>
+                                    <option value="GLOSA">GLOSA (green light optimal speed advisory)</option>
+                                    <option value="IVS">IVS (In-Vehicle Signage)</option>
+                                    <option value="VNFP">VNFP (vehicle near-field payment)</option>
+                                    <option value="ST">ST (See through)</option>
+                                    <option value="LMDU">LMDU (Local Map download & update)</option>
+                                    <option value="GWSD">GWSD (Green wave speed distribution)</option>
+                                    <option value="VVP">VVP (VIP Vehicle Priority)</option>
+                                    <option value="TAW">TAW (Traffic Accident Warning)</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>道路类型</p>
+                                <select name="roadtype" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>直行道</option>
+                                    <option>弯道</option>
+                                    <option>路口</option>
+                                    <option>十字路口</option>
+                                    <option>多叉路口</option>
+                                    <option>丁字路口</option>
+                                    <option>分叉路口</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>障碍类型</p>
+                                <select name="barriertype" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>机动车</option>
+                                    <option>非机动车</option>
+                                    <option>行人</option>
+                                    <option>不明障碍物或无障碍物</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>试验场地</p>
+                                <input type="text" name="place"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 search-collapse">
+                <div class="select-list">
+                    <ul>
+                        <div class="col-sm-3">
+                            <li>
+                                <p>任务名称</p>
+                                <input type="text" name="rwmc" id="rwmc"/>
+                            </li>
+                        </div>
+                        <div class="col-sm-3">
+                            <li>
+                                <p>仿真引擎</p>
+                                <select name="fzyq" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>VTD</option>
+                                    <option>Panosim</option>
+                                </select>
+                            </li>
+                        </div>
+                        <div class="col-sm-3">
+                            <li>
+                                <p>测试类型</p>
+                                <select name="cslx" th:with="type=${@dict.getType('')}">
+                                    <option value="">请选择</option>
+                                    <option>HIL</option>
+                                    <option>MIL</option>
+                                </select>
+                            </li>
+                        </div>
+                        <div class="col-sm-1">
+                            <li>
+                                <a class="btn btn-success" onclick="beginTest()">
+                                    <i class="fa fa-plus"></i> 测试开始
+                                </a>
+                            </li>
+                        </div>
+                        <div class="col-sm-1">
+                            <li>
+                                <a class="btn btn-primary" onclick="saveAll()">
+                                    <i class="fa fa-plus"></i> 保存方案
+                                </a>
+                            </li>
+                        </div>
+                        <div class="col-sm-1">
+                            <li>
+                                <a class="btn btn-danger multiple disabled" onclick="endTest()">
+                                    <i class="fa fa-remove"></i> 测试结束
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="btn-group-sm" id="toolbar1" role="group">
+                        <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:list:add">
+                            <i class="fa fa-plus"></i> 添加
+                        </a>
+                        <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:list:edit">
+                            <i class="fa fa-edit"></i> 修改
+                        </a>
+                        <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:list:remove">
+                            <i class="fa fa-remove"></i> 删除
+                        </a>
+                        <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:list:export">
+                            <i class="fa fa-download"></i> 导出
+                         </a>
+                        <a class="btn btn-success" onclick="addTest()">
+                            <i class="fa fa-plus"></i> 加入测试集
+                        </a>
+                        <a class="btn btn-primary single disabled" onclick="gEdit()">
+                            <i class="fa fa-edit"></i> 修改场景文件
+                        </a>
+                    </div>
+                    <div class="col-sm-12 select-table table-striped">
+                        <table id="bootstrap-table1"></table>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="btn-group-sm" id="toolbar2" role="group">
+                        <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:selected:remove">
+                            <i class="fa fa-remove"></i> 删除
+                        </a>
+                        <a class="btn btn-success" onclick="deleteAll()">
+                            <i class="fa fa-remove"></i> 清空
+                        </a>
+                        <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:selected:export">
+                            <i class="fa fa-download"></i> 导出
+                        </a>
+                    </div>
+                    <div class="col-sm-12 select-table table-striped">
+                        <table id="bootstrap-table2"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:list:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:list:remove')}]];
+        var prefix = ctx + "system/list";
+
+        var removeFlag2 = [[${@permission.hasPermi('system:selected:remove')}]];
+        var prefix2 = ctx + "system/selected";
+
+        $(function() {
+            var options = {
+                id: "bootstrap-table1",
+                toolbar: "toolbar1",
+                url: prefix + "/list",
+                addTestUrl: prefix + "/addTest",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "测试用例",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '序号',
+                    visible: false
+                },
+                {
+                    field : 'scenario', 
+                    title : '场景名'
+                },
+                {
+                    field : 'speed', 
+                    title : '主车速度'
+                },
+                {
+                    field : 'behavior', 
+                    title : '主车行为'
+                },
+                {
+                    field : 'warningtype', 
+                    title : '预警类型'
+                },
+                {
+                    field : 'roadtype', 
+                    title : '道路类型'
+                },
+                {
+                    field : 'barriertype', 
+                    title : '障碍物类型'
+                },
+                {
+                    field : 'place', 
+                    title : '试验场地'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        })
+
+        $(function() {
+            var options2 = {
+                id: "bootstrap-table2",
+                toolbar: "toolbar2",
+                url: prefix2 + "/list",
+                createUrl: prefix2 + "/add",
+                updateUrl: prefix2 + "/edit/{id}",
+                removeUrl: prefix2 + "/remove",
+                exportUrl: prefix2 + "/export",
+                deleteAllUrl: prefix2 + "/deleteAll",
+                modalName: "选中集",
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field : 'id',
+                        title : '序号',
+                        visible: false
+                    },
+                    {
+                        field : 'scenario',
+                        title : '场景名'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag2 + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options2);
+        });
+
+        function addTest() {
+            table.set();
+            var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+            if (rows.length == 0) {
+                $.modal.alertWarning("请至少选择一条记录");
+                return;
+            }
+            $.modal.confirm("确认要加入选中的" + rows.length + "条数据吗?", function() {
+                var url = table.options.addTestUrl;
+                var data = { "ids": rows.join() };
+                $.operate.submit(url, "post", "json", data);
+                var tableId = "bootstrap-table2";
+                table.options = table.get(tableId);
+                $.table.refresh();
+            });
+        };
+
+
+        function deleteAll() {
+            table.set();
+            $.modal.confirm("确认要清空表中数据吗?", function() {
+                var url = table.options.deleteAllUrl;
+                $.operate.submit(url, "post", "json", "");
+                var tableId = "bootstrap-table2";
+                table.options = table.get(tableId);
+                $.table.refresh();
+
+            });
+        };
+
+        function saveAll() {
+            if (document.getElementById("rwmc").value.length ==0) {
+                layer.msg('请填写任务名称！', {icon: 1});
+            }
+            else{
+                $.modal.confirm("确认要生成方案吗?", function() {
+                    var url = ctx + 'system/selected/saveAll';
+                    var data = { "rwmc": $("#rwmc").val()};
+                    $.operate.submit(url, "post", "json", data);
+                });
+            }
+        };
+
+        function gEdit() {
+            table.set();
+            var scenario = $.table.selectColumns("scenario")[0];
+            var data = { "scenario": scenario};
+            var url = ctx + 'system/list/gEdit';
+            $.operate.submit(url, "post", "json", data);
+        };
+    </script>
+</body>
+</html>

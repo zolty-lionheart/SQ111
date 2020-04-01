@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestSelectedMapper">
+    
+    <resultMap type="TestSelected" id="TestSelectedResult">
+        <result property="id"    column="id"    />
+        <result property="scenario"    column="scenario"    />
+        <result property="loginName"    column="login_name"    />
+    </resultMap>
+
+    <sql id="selectTestSelectedVo">
+        select id, scenario, login_name from test_selected
+    </sql>
+
+    <select id="selectTestSelectedList" parameterType="String" resultMap="TestSelectedResult">
+        <include refid="selectTestSelectedVo"/>
+        where login_name = #{loginName}
+    </select>
+    
+    <select id="selectTestSelectedById" parameterType="Long" resultMap="TestSelectedResult">
+        <include refid="selectTestSelectedVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestSelected" parameterType="TestSelected" useGeneratedKeys="true" keyProperty="id">
+        insert into test_selected
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">scenario,</if>
+            <if test="loginName != null  and loginName != ''">login_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">#{scenario},</if>
+            <if test="loginName != null  and loginName != ''">#{loginName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestSelected" parameterType="TestSelected">
+        update test_selected
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scenario != null  and scenario != ''">scenario = #{scenario},</if>
+            <if test="loginName != null  and loginName != ''">login_name = #{loginName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestSelectedById" parameterType="Long">
+        delete from test_selected where id = #{id}
+    </delete>
+
+    <delete id="deleteTestSelectedByIds" parameterType="String">
+        delete from test_selected where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAll" parameterType="String">
+        delete from test_selected where login_name = #{loginName}
+    </delete>
+
+    <select id="selectTestSelectedListAll" parameterType="String" resultMap="TestSelectedResult">
+        select scenario from test_selected where login_name = #{loginName}
+    </select>
+    
+</mapper>

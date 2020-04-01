@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestMessageMapper">
+    
+    <resultMap type="TestMessage" id="TestMessageResult">
+        <result property="id"    column="id"    />
+        <result property="infonum"    column="infonum"    />
+        <result property="ismd5"    column="ismd5"    />
+        <result property="timestamp"    column="timestamp"    />
+        <result property="messagetype"    column="messagetype"    />
+        <result property="messagelength"    column="messagelength"    />
+        <result property="x"    column="x"    />
+        <result property="y"    column="y"    />
+        <result property="ttc"    column="ttc"    />
+        <result property="hvs"    column="hvs"    />
+        <result property="rvs"    column="rvs"    />
+        <result property="hrdistance"    column="hrdistance"    />
+        <result property="rwmc"    column="rwmc"    />
+        <result property="scenario"    column="scenario"    />
+    </resultMap>
+
+    <resultMap type="TestMessage" id="TestMessageXdata">
+        <result property="hvs"    column="hvs"    />
+        <result property="rvs"    column="rvs"    />
+        <result property="xtime"    column="xtime"    />
+    </resultMap>
+
+    <sql id="selectTestMessageVo">
+        select id, infonum, ismd5, timestamp, messagetype, messagelength, x, y, ttc, hvs, rvs, hrdistance, rwmc, scenario from test_message
+    </sql>
+
+    <select id="selectTestMessageList" parameterType="TestMessage" resultMap="TestMessageResult">
+        <include refid="selectTestMessageVo"/>
+        <where>  
+            <if test="infonum != null "> and infonum = #{infonum}</if>
+            <if test="ismd5 != null "> and ismd5 = #{ismd5}</if>
+            <if test="timestamp != null "> and timestamp = #{timestamp}</if>
+            <if test="messagetype != null "> and messagetype = #{messagetype}</if>
+            <if test="messagelength != null "> and messagelength = #{messagelength}</if>
+            <if test="x != null "> and x = #{x}</if>
+            <if test="y != null "> and y = #{y}</if>
+            <if test="ttc != null "> and ttc = #{ttc}</if>
+            <if test="hvs != null "> and hvs = #{hvs}</if>
+            <if test="rvs != null "> and rvs = #{rvs}</if>
+            <if test="hrdistance != null "> and hrdistance = #{hrdistance}</if>
+            <if test="rwmc != null  and rwmc != ''"> and rwmc = #{rwmc}</if>
+            <if test="scenario != null  and scenario != ''"> and scenario = #{scenario}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestMessageById" parameterType="Long" resultMap="TestMessageResult">
+        <include refid="selectTestMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestMessage" parameterType="TestMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into test_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="infonum != null ">infonum,</if>
+            <if test="ismd5 != null ">ismd5,</if>
+            <if test="timestamp != null ">timestamp,</if>
+            <if test="messagetype != null ">messagetype,</if>
+            <if test="messagelength != null ">messagelength,</if>
+            <if test="x != null ">x,</if>
+            <if test="y != null ">y,</if>
+            <if test="ttc != null ">ttc,</if>
+            <if test="hvs != null ">hvs,</if>
+            <if test="rvs != null ">rvs,</if>
+            <if test="hrdistance != null ">hrdistance,</if>
+            <if test="rwmc != null  and rwmc != ''">rwmc,</if>
+            <if test="scenario != null  and scenario != ''">scenario,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="infonum != null ">#{infonum},</if>
+            <if test="ismd5 != null ">#{ismd5},</if>
+            <if test="timestamp != null ">#{timestamp},</if>
+            <if test="messagetype != null ">#{messagetype},</if>
+            <if test="messagelength != null ">#{messagelength},</if>
+            <if test="x != null ">#{x},</if>
+            <if test="y != null ">#{y},</if>
+            <if test="ttc != null ">#{ttc},</if>
+            <if test="hvs != null ">#{hvs},</if>
+            <if test="rvs != null ">#{rvs},</if>
+            <if test="hrdistance != null ">#{hrdistance},</if>
+            <if test="rwmc != null  and rwmc != ''">#{rwmc},</if>
+            <if test="scenario != null  and scenario != ''">#{scenario},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestMessage" parameterType="TestMessage">
+        update test_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="infonum != null ">infonum = #{infonum},</if>
+            <if test="ismd5 != null ">ismd5 = #{ismd5},</if>
+            <if test="timestamp != null ">timestamp = #{timestamp},</if>
+            <if test="messagetype != null ">messagetype = #{messagetype},</if>
+            <if test="messagelength != null ">messagelength = #{messagelength},</if>
+            <if test="x != null ">x = #{x},</if>
+            <if test="y != null ">y = #{y},</if>
+            <if test="ttc != null ">ttc = #{ttc},</if>
+            <if test="hvs != null ">hvs = #{hvs},</if>
+            <if test="rvs != null ">rvs = #{rvs},</if>
+            <if test="hrdistance != null ">hrdistance = #{hrdistance},</if>
+            <if test="rwmc != null  and rwmc != ''">rwmc = #{rwmc},</if>
+            <if test="scenario != null  and scenario != ''">scenario = #{scenario},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestMessageById" parameterType="Long">
+        delete from test_message where id = #{id}
+    </delete>
+
+    <delete id="deleteTestMessageByIds" parameterType="String">
+        delete from test_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectxdata" parameterType="String" resultMap="TestMessageXdata">
+        select hvs, rvs, xtime from test_message
+        where rwmc = #{rwmc} and scenario = #{scenario}
+    </select>
+</mapper>
